@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Amplify from "aws-amplify";
-// import "@aws-amplify/ui-react/styles.css";
+import "@aws-amplify/ui-react/styles.css";
 import awsmobile from "./aws-exports";
 
 Amplify.configure(awsmobile);

@@ -2,6 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Add links.md in the root folder
+
+## Udemy tutorial
+
+https://www.udemy.com/course/draft/2102800/learn/lecture/13009572#questions/15578136
+
+## My Git
+
+https://github.com/samedan/22.11_aws_graphql_notetaker
+
 ## Available Scripts
 
 In the project directory, you can run:
