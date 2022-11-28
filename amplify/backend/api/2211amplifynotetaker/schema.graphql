@@ -19,3 +19,14 @@ type Note
   id: ID!
   note: String!
 }
+
+type Subscription {
+  newOnCreateNote: Note @aws_subscribe(mutations: ["createNote"])
+  #   @aws_cognito_user_pools
+  # onUpdateProjectPublic: Note
+  #   @aws_subscribe(mutations: ["onUpdateNote"])
+  #   @aws_cognito_user_pools
+  # onDeleteProjectPublic: Note
+  #   @aws_subscribe(mutations: ["onDeleteNote"])
+  #   @aws_cognito_user_pools
+}

@@ -1,24 +1,50 @@
 import { withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
 import { useEffect, useState } from "react";
-import { Amplify, API, graphqlOperation } from "aws-amplify";
+import { API, graphqlOperation } from "aws-amplify";
 import { createNote, deleteNote, updateNote } from "./graphql/mutations";
 import { listNotes } from "./graphql/queries";
+import { newOnCreateNote } from "./graphql/subscriptions";
 
 function App({ signOut, user }) {
   const [notes, setNotes] = useState([]);
   const [note, setNote] = useState("");
   const [id, setId] = useState("");
 
+  let subOncreate;
+
+  function setUpSubscriptions() {
+    subOncreate = API.graphql(graphqlOperation(newOnCreateNote)).subscribe({
+      next: (noteData) => {
+        // next is a function that allows to get any data that returns from a Subscription
+        console.log(noteData.value);
+      },
+    });
+  }
   useEffect(() => {
-    async function fetchData() {
-      // You can await here
-      const result = await API.graphql(graphqlOperation(listNotes));
-      setNotes(result.data.listNotes.items);
-      // ...
-    }
-    fetchData();
+    getNotes();
+    // API.graphql(graphqlOperation(onCreateNote)).subscribe({
+    //   next: (noteData) => {
+    //     // next is a function that allows to get any data that returns from a Subscription
+    //     console.log(noteData);
+    //   },
+    // });
   }, [setNotes]);
+
+  useEffect(() => {
+    console.log("subscription");
+    setUpSubscriptions();
+    return () => {
+      subOncreate.unsubscribe();
+    };
+  }, []);
+
+  const getNotes = async () => {
+    // You can await here
+    const result = await API.graphql(graphqlOperation(listNotes));
+    setNotes(result.data.listNotes.items);
+    // ...
+  };
 
   const handleChange = (event) => {
     setNote(event.target.value);
